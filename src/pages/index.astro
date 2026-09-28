@@ -1,17 +1,18 @@
 ---
 import Layout from "../layouts/Layout.astro"
 import Section from "../components/sections/Section.astro"
-import { Image } from "astro:assets"
 
-import { fetchHeadingText } from "../lib/fetch_data.js"
+import { fetchHeadingText } from "../lib/fetch_data"
 
-const headingText = await fetchHeadingText()
+const headingTextData = await fetchHeadingText()
 
-console.log("Heading text: ", headingText)
+const headingText =
+  headingTextData[0].heading_text ??
+  "This is a Docker containerization demonstration"
 ---
 
 <Layout>
   <Section>
-    <h3>{headingText[0]?.heading_text}</h3>
+    <h3>{headingText}</h3>
   </Section>
 </Layout>
