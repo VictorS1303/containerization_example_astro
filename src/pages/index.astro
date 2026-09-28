@@ -1,11 +1,17 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro"
+import Section from "../components/sections/Section.astro"
+import { Image } from "astro:assets"
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import { fetchHeadingText } from "../lib/fetch_data.js"
+
+const headingText = await fetchHeadingText()
+
+console.log("Heading text: ", headingText)
 ---
 
 <Layout>
-	<Welcome />
+  <Section>
+    <h3>{headingText[0]?.heading_text}</h3>
+  </Section>
 </Layout>
