@@ -1,4 +1,4 @@
-### PREVIOUS VERSION ###
+### SINGLE STATE - KEPT FOR REFERENCE ###
 
 # FROM node:22
 
@@ -20,7 +20,7 @@
 # CMD ["node", "./dist/server/entry.mjs"]
 
 
-### CLEANER VERSION ###
+### MULTI-STAGE ###
 
 FROM node:22 AS build
 
@@ -33,7 +33,6 @@ RUN npm ci
 COPY . .
 
 RUN npm run build
-
 
 FROM node:22 AS runtime
 
