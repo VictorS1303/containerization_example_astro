@@ -101,15 +101,15 @@ File breakdown (see [step 7](#7-project-structure-in-depth) for an in-depth brea
 
     **NEW VERSION**
     > FROM node:22 AS build
-    * The same Node.js 22 image is used, but it now has a name "*build*".
+    * The same Node.js 22 image is used, but it now has a name *build*".
     <br />
-    * This name later becomes important, because the runtime stage can copy files from this stage "*COPY --from=build*".
+    * This name later becomes important, because the runtime stage can copy files from this stage *COPY --from=build*".
     <br />
     <br />
 
     **OLD VERSION**
     > WORKDIR /app
-    * Docker sets "*/app*" as the working directory inside the container
+    * Docker sets */app*" as the working directory inside the container
     <br />
 
     **NEW VERSION**
@@ -120,7 +120,7 @@ File breakdown (see [step 7](#7-project-structure-in-depth) for an in-depth brea
 
     **OLD VERSION**
     > COPY package*.json ./
-    * The project's package files are copied into "*/app*"
+    * The project's package files are copied into */app*"
     <br />
 
     **NEW VERSION**
@@ -142,7 +142,7 @@ File breakdown (see [step 7](#7-project-structure-in-depth) for an in-depth brea
 
     **OLD VERSION**
     > COPY . .
-    * The rest of the project is copied into "*/app*".
+    * The rest of the project is copied into */app*".
     <br />
 
     **NEW VERSION**
@@ -172,7 +172,7 @@ File breakdown (see [step 7](#7-project-structure-in-depth) for an in-depth brea
 
     **NEW VERSION**
     > RUN npm run build
-    * No changes in the command itself. The important difference is ***where the result goes***. In the new version, in opposition to the old one, the data now goes inside the temporary "*build*" stage.
+    * No changes in the command itself. The important difference is ***where the result goes***. In the new version, in opposition to the old one, the data now goes inside the temporary *build*" stage.
     <br />
     <br />
 
@@ -185,7 +185,7 @@ File breakdown (see [step 7](#7-project-structure-in-depth) for an in-depth brea
     > FROM node:22 AS runtime
     * Instead of continuing with the same image, a new stage is created using the same Node.js 22 image.
     <br />
-    * This stage is given the name "*runtime*" and will contain what is needed to run the already built Astro application.
+    * This stage is given the name *runtime*" and will contain what is needed to run the already built Astro application.
     <br />
     <br />
 
@@ -195,7 +195,7 @@ File breakdown (see [step 7](#7-project-structure-in-depth) for an in-depth brea
 
     **NEW VERSION**
     > WORKDIR /app
-    * Docker sets "*/app*" as the working directory inside the new "*runtime*" stage.
+    * Docker sets */app*" as the working directory inside the new *runtime*" stage.
     <br />
     <br />
 
@@ -205,9 +205,9 @@ File breakdown (see [step 7](#7-project-structure-in-depth) for an in-depth brea
 
     **NEW VERSION**
     > COPY --from=build /app/node_modules ./node_modules
-    * This copies the "*node_modules*" directory from the "*build*" stage into the "*runtime*" stage.
+    * This copies the *node_modules*" directory from the *build*" stage into the *runtime*" stage.
     <br />
-    * This means that the dependencies do not have to be installed again in the "*runtime*" stage.
+    * This means that the dependencies do not have to be installed again in the *runtime*" stage.
     <br />
     <br />
 
@@ -217,7 +217,7 @@ File breakdown (see [step 7](#7-project-structure-in-depth) for an in-depth brea
 
     **NEW VERSION**
     > COPY --from=build /app/dist ./dist
-    * This copies the built Astro application from the "*build*" stage into the "*runtime*" stage.
+    * This copies the built Astro application from the *build*" stage into the *runtime*" stage.
     <br />
     * The runtime stage therefore receives the files required to run the already built application without needing the original source code.
     <br />
@@ -229,7 +229,7 @@ File breakdown (see [step 7](#7-project-structure-in-depth) for an in-depth brea
 
     **NEW VERSION**
     > USER node
-    * This changes the user running the application from the default root user to the "*node*" user.
+    * This changes the user running the application from the default root user to the *node*" user.
     <br />
     * This means the application does not need to run with root privileges.
     <br />
@@ -268,13 +268,13 @@ File breakdown (see [step 7](#7-project-structure-in-depth) for an in-depth brea
     > CMD ["node", "./dist/server/entry.mjs"]
     * No changes.
     <br />
-    * The difference is that the "*dist*" directory now comes from the "*build*" stage.
+    * The difference is that the *dist*" directory now comes from the *build*" stage.
     <br />
     <br />
 
     The main difference between the two versions is that the old version uses a **single-stage build**, where everything is contained in one image, while the new version uses a **multi-stage build**.
 
-    The new version first uses the "*build*" stage to install dependencies and build the Astro application. It then creates a separate "*runtime*" stage and copies only the "*node_modules*" and "*dist*" directories required to run the application.
+    The new version first uses the *build*" stage to install dependencies and build the Astro application. It then creates a separate *runtime*" stage and copies only the *node_modules*" and *dist*" directories required to run the application.
 
     This keeps the build process separate from the final runtime environment.
 
@@ -504,19 +504,19 @@ The [Dockerfile](./Dockerfile) uses a multi-stage build to separate the process 
 
 <br />
 
-The first stage is the "*build*" stage:
+The first stage is the *build*" stage:
 
 **build stage → install dependencies → copy project → build Astro application**
 
 <br />
 
-The second stage is the "*runtime*" stage:
+The second stage is the *runtime*" stage:
 
 **runtime stage → copy dependencies and build files → start Astro application**
 
 <br />
 
-Only the files required by the runtime are copied from the "*build*" stage:
+Only the files required by the runtime are copied from the *build*" stage:
 
 > COPY --from=build /app/node_modules ./node_modules
 
@@ -538,6 +538,6 @@ Docker Compose configures the two containers, including their environment variab
 
 The application uses `postgresClient` to connect to the PostgreSQL container and retrieve the stored heading.
 
-The Dockerfile uses a multi-stage build, where the application is first built in a "*build*" stage and then transferred into a separate "*runtime*" stage.
+The Dockerfile uses a multi-stage build, where the application is first built in a *build*" stage and then transferred into a separate *runtime*" stage.
 
 This separates the build environment from the final environment used to run the application.
